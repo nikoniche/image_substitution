@@ -104,8 +104,12 @@ def substitution(template_path: str, substitute_path: str, use_dominant_color=Fa
     substitute_path: Path to the image that will be pasted into the template.
     use_dominant_color: If True, will use dominant color to find the placement area.
     """
-    template = Image.open(template_path)
-    substitute = Image.open(substitute_path)
+
+    try:
+        template = Image.open(template_path)
+        substitute = Image.open(substitute_path)
+    except AttributeError:
+        pass
 
     # find the dominant color of the template if required, otherwise use default white (255, 255, 255)
     dominant_color = (255, 255, 255) if not use_dominant_color else _find_dominant_color(template)
@@ -120,9 +124,3 @@ def substitution(template_path: str, substitute_path: str, use_dominant_color=Fa
     template.paste(resized_substitute, placement_position)
 
     return template
-
-def save(image: Image, name: str) -> None:
-    try:
-        image.save(f"{name}.jpg")
-    except OSError:
-        image.save(f"{name}.png")
