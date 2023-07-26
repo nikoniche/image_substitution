@@ -120,3 +120,9 @@ def substitution(template_path: str, substitute_path: str, use_dominant_color=Fa
     template.paste(resized_substitute, placement_position)
 
     return template
+
+def save(image: Image, name: str) -> None:
+    try:
+        image.save(f"{name}.jpg")
+    except OSError:
+        image.save(f"{name}.png")
